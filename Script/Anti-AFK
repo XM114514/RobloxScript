@@ -1,0 +1,75 @@
+local function ShowNotification(title, text, imageUrl)
+	showNotification = true
+	
+	local notification = Instance.new("ScreenGui")
+	notification.Name = "Notification"
+	notification.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+	notification.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+
+	local frame = Instance.new("Frame")
+	frame.Name = "NotificationFrame"
+	frame.Parent = notification
+	frame.AnchorPoint = Vector2.new(1, 1)
+	frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	frame.BackgroundTransparency = 1.000
+	frame.Position = UDim2.new(1, -10, 1, -10)
+	frame.Size = UDim2.new(0, 250, 0, 100)
+
+
+	local imageLabel = Instance.new("ImageLabel")
+	imageLabel.Name = "ImageLabel"
+	imageLabel.Parent = frame
+	imageLabel.BackgroundTransparency = 1.000
+	imageLabel.Size = UDim2.new(0, 50, 0, 50)
+	imageLabel.Position = UDim2.new(0, 10, 0.5, -25)
+	imageLabel.Image = imageUrl
+
+	local titleLabel = Instance.new("TextLabel")
+	titleLabel.Name = "TitleLabel"
+	titleLabel.Parent = frame
+	titleLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	titleLabel.BackgroundTransparency = 1.000
+	titleLabel.Position = UDim2.new(0, 70, 0, 10)
+	titleLabel.Size = UDim2.new(1, -70, 0, 20)
+	titleLabel.Font = Enum.Font.SourceSansBold
+	titleLabel.Text = title
+	titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	titleLabel.TextSize = 18.000
+	titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+
+	local textLabel = Instance.new("TextLabel")
+	textLabel.Name = "TextLabel"
+	textLabel.Parent = frame
+	textLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	textLabel.BackgroundTransparency = 1.000
+	textLabel.Position = UDim2.new(0, 70, 0, 40)
+	textLabel.Size = UDim2.new(1, -70, 0, 50)
+	textLabel.Font = Enum.Font.SourceSans
+	textLabel.Text = text
+	textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	textLabel.TextSize = 14.000
+	textLabel.TextWrapped = true
+	textLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+	notification.Enabled = true
+	frame:TweenPosition(UDim2.new(1, -10, 1, -100), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 1, true)
+	frame:TweenSize(UDim2.new(0, 250, 0, 100), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 1, true)
+	frame.BackgroundTransparency = 0.8
+
+	wait(5)
+	frame:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.In, Enum.EasingStyle.Quad, 1, true)
+	wait(1)
+	notification:Destroy()
+
+	showNotification = false
+end
+wait(0.5)
+ShowNotification("Anti AFK", "Anti AFK，启动！\nby chatGPT	&	GTR", "rbxthumb://type=Asset&id=5107182114&w=150&h=150")
+local bb = game:service("VirtualUser")
+game:service("Players").LocalPlayer.Idled:connect(function()
+	bb:CaptureController()
+	bb:ClickButton2(Vector2.new())
+ShowNotification("已成功拦截AFK系统", "AFK系统正在运行", "rbxthumb://type=Asset&id=5107182114&w=150&h=150")
+end)
